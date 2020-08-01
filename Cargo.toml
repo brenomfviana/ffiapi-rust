@@ -1,0 +1,11 @@
+[package]
+name = "ffiapi"
+version = "0.1.0"
+authors = ["Breno Viana <bmfviana@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "ffiapi"
+crate-type = ["cdylib"]
+
+[dependencies]
