@@ -8,6 +8,14 @@ Codes for learning to build FFI APIs in Rust for C++.
 cargo build [--release]
 ```
 
+
+## Generating `.h` file
+
+```bash
+cbindgen --config cbindgen.toml --crate ffiapi --output examples/ffiapi.h
+```
+
+
 ## Using the library in C++ code
 
 ```bash
@@ -19,6 +27,7 @@ or
 ```bash
 g++ --std=c++11 -o target/test examples/test.cpp target/debug/libffiapi.so
 ```
+
 
 ## License
 
