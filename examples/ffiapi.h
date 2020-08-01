@@ -9,9 +9,16 @@ struct RustPerson {
   float height;
 };
 
+struct RustPeople {
+  uintptr_t size;
+  const RustPerson *list;
+};
+
 extern "C" {
 
 uint32_t addition(uint32_t a, uint32_t b);
+
+RustPeople get_people();
 
 RustPerson get_person();
 
