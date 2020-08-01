@@ -5,6 +5,12 @@ Codes for learning to build FFI APIs in Rust for C++.
 ## How to compile
 
 ```bash
+cargo build [--release]
+```
+
+## Using the library in C++ code
+
+```bash
 g++ --std=c++11 -o target/test examples/test.cpp -Ltarget/debug/ -lffiapi
 ```
 
