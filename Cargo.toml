@@ -9,3 +9,4 @@ name = "ffiapi"
 crate-type = ["cdylib"]
 
 [dependencies]
+libc = "0.2"
