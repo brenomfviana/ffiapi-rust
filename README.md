@@ -1,11 +1,11 @@
 # `rust_for_cpp`
 
-Codes for learning to build FFI APIs in Rust for C++.
+Codes for learning to build FFI APIs in Rust for C++. I need to fix some memory leaks.
 
 ## How to compile
 
 ```bash
-cargo build [--release]
+cargo build
 ```
 
 
