@@ -1,7 +1,6 @@
 extern crate libc;
 
 use std::ffi::CString;
-use std::mem::transmute;
 
 #[repr(C)]
 pub struct RustPerson {
@@ -10,10 +9,22 @@ pub struct RustPerson {
   height: f32
 }
 
+impl Drop for RustPerson {
+  fn drop(&mut self) { unsafe {
+    libc::free(self.name as *mut libc::c_void)
+  }; }
+}
+
 #[repr(C)]
 pub struct RustPeople {
   size: usize,
   list: *const RustPerson
+}
+
+impl Drop for RustPeople {
+  fn drop(&mut self) { unsafe {
+    libc::free(self.list as *mut libc::c_void)
+  }; }
 }
 
 #[no_mangle]
@@ -26,39 +37,26 @@ pub extern "C" fn addition(a: u32, b: u32) -> u32 { a + b }
 
 #[no_mangle]
 pub extern fn get_string() -> *const libc::c_char {
-  let data: *const CString;
-  unsafe {
-    data = transmute(Box::new(CString::from_vec_unchecked(b"Rust!".to_vec())));
-    return (&*data).as_ptr();
-  }
+  let r_str = CString::new(String::from("Rust")).unwrap();
+  r_str.into_raw()
 }
 
 #[no_mangle]
 pub extern "C" fn get_person() -> RustPerson {
-  let data: *const CString;
-  unsafe {
-    data = transmute(
-      Box::new(CString::from_vec_unchecked(b"Breno".to_vec()))
-    );
-  }
-  RustPerson { name: unsafe { (&*data).as_ptr() }, age: 24, height: 1.7 }
+  let r_str = CString::new(String::from("Breno")).unwrap();
+  RustPerson { name: r_str.into_raw(), age: 24, height: 1.7 }
 }
 
 #[no_mangle]
 pub extern "C" fn get_people() -> RustPeople {
   let mut list: Vec<RustPerson> = vec![];
-  let names = ["Breno", "Solange", "Aurélio", "Larissa"];
+  let names = ["A", "B", "C", "D"];
   let ages = [24, 52, 51, 23];
   let heights = [1.7, 1.6, 1.65, 1.55];
   for i in 0..4 {
-    let data: *const CString;
-    unsafe {
-      data = transmute(
-        Box::new(CString::from_vec_unchecked(names[i].as_bytes().to_vec()))
-      );
-    }
+    let r_str = CString::new(names[i]).unwrap();
     list.push(RustPerson {
-      name: unsafe { (&*data).as_ptr() }, age: ages[i], height: heights[i]
+      name: r_str.into_raw(), age: ages[i], height: heights[i]
     });
   }
   RustPeople { size: names.len(), list: (&*list).as_ptr() }

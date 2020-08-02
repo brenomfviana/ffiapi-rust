@@ -17,24 +17,24 @@ int main() {
   std::cout << "Changed Rust string: '" << str << "'\n";
   //
   std::cout << "Creating a person from Rust struct:" << '\n';
-  RustPerson person = { "Aurélio", 51, 1.67 };
+  RustPerson person1 = { "A", 51, 1.67 };
   std::cout << "Person 1: " << '\n';
-  std::cout << "  Name: " << person.name << '\n';
-  std::cout << "  Age: " << person.age << '\n';
-  std::cout << "  Height: " << person.height << '\n';
+  std::cout << "  Name: " << person1.name << '\n';
+  std::cout << "  Age: " << person1.age << '\n';
+  std::cout << "  Height: " << person1.height << '\n';
   //
   std::cout << "Getting a person from Rust function:" << '\n';
-  person = get_person();
+  RustPerson person2 = get_person();
   std::cout << "Person 2: " << '\n';
-  std::cout << "  Name: " << person.name << '\n';
-  std::cout << "  Age: " << person.age << '\n';
-  std::cout << "  Height: " << person.height << '\n';
+  std::cout << "  Name: " << person2.name << '\n';
+  std::cout << "  Age: " << person2.age << '\n';
+  std::cout << "  Height: " << person2.height << '\n';
   //
   std::cout << "Getting a list from Rust function:" << '\n';
   auto people = get_people();
   int j = 3;
   for (size_t i = 0; i < people.size; i++) {
-    std::cout << "Person " << j << ": \n";
+    std::cout << "Person " << j++ << ": \n";
     std::cout << "  Name: " << people.list[i].name << '\n';
     std::cout << "  Age: " << people.list[i].age << '\n';
     std::cout << "  Height: " << people.list[i].height << '\n';
