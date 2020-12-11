@@ -1,8 +1,10 @@
 # `rust_for_cpp`
 
-Codes for learning to build FFI APIs in Rust for C++.
-There are some memory leaks in the library.
-I do not know if I did something wrong, probably I did, but there are also some leaks are not my fault: https://github.com/rust-lang/rust/issues/19776.
+This repository contains codes for learning to build FFI APIs in Rust for C++.
+There is only one memory leak in this library.
+The cause of this leak is the `println` macro, which is called in the function `print_rust`.
+More details in the following link: https://github.com/rust-lang/rust/issues/19776.
+
 
 ## How to compile
 
