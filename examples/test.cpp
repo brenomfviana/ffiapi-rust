@@ -3,9 +3,9 @@
 #include "../include/ffiapi.h"
 
 int main() {
-  // // Print in Rust
-  // std::cout << "Calling function from Rust:" << '\n';
-  // print_rust();
+  // Print in Rust
+  std::cout << "Calling function from Rust:" << '\n';
+  print_rust();
 
   // Sum in Rust
   std::cout << "Summing two numbers from Rust:" << '\n';
