@@ -10,8 +10,8 @@ struct RustPerson {
 };
 
 struct RustPeople {
-  uintptr_t size;
-  const RustPerson *list;
+  uintptr_t len;
+  RustPerson *data;
 };
 
 extern "C" {

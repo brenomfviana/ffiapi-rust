@@ -44,17 +44,17 @@ int main() {
   // Free Rust pointer (all these operation must be in Rust library)
   free_person(person2);
 
-  // // Get a list of objects from Rust
-  // std::cout << "Getting a list from Rust function:" << '\n';
-  // RustPeople people = get_people();
-  // int j = 3;
-  // for (size_t i = 0; i < people.size; i++) {
-  //   std::cout << "  Person " << j++ << ": \n";
-  //   std::cout << "    Name: " << people.list[i].name << '\n';
-  //   std::cout << "    Age: " << people.list[i].age << '\n';
-  //   std::cout << "    Height: " << people.list[i].height << '\n';
-  // }
-  // // Free Rust pointer (all these operation must be in Rust library)
-  // free_people(people);
+  // Get a list of objects from Rust
+  std::cout << "Getting a list from Rust function:" << '\n';
+  RustPeople people = get_people();
+  int j = 3;
+  for (size_t i = 0; i < people.len; i++) {
+    std::cout << "  Person " << j++ << ": \n";
+    std::cout << "    Name: " << people.data[i].name << '\n';
+    std::cout << "    Age: " << people.data[i].age << '\n';
+    std::cout << "    Height: " << people.data[i].height << '\n';
+  }
+  // Free Rust pointer (all these operation must be in Rust library)
+  free_people(people);
   return EXIT_SUCCESS;
 }

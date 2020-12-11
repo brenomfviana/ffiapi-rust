@@ -37,19 +37,15 @@ fn own_str(str: *const c_char) -> String {
 
 #[no_mangle]
 pub extern "C" fn concatenate(s1: *mut c_char, s2: *mut c_char) -> *mut c_char {
-  let s1 = own_str(s1);
-  let s2 = own_str(s2);
-  CString::new(s1 + &s2).unwrap().into_raw()
+  CString::new(own_str(s1) + &own_str(s2)).unwrap().into_raw()
 }
 
 #[no_mangle]
 pub extern "C" fn free_string(string: *mut c_char) {
-  unsafe {
-    if string.is_null() {
-      return
-    }
-    CString::from_raw(string)
-  };
+  if string.is_null() {
+    return
+  }
+  unsafe { CString::from_raw(string) };
 }
 
 #[no_mangle]
@@ -63,27 +59,47 @@ pub extern "C" fn free_person(person: RustPerson) { drop(person) }
 
 #[repr(C)]
 pub struct RustPeople {
-  size: usize,
-  list: *const RustPerson
+  len: usize,
+  data: *mut RustPerson
 }
 
 impl Drop for RustPeople {
-  fn drop(&mut self) { unsafe { libc::free(self.list as *mut libc::c_void) }; }
+  fn drop(&mut self) {
+    // Convert the pointer into a slice
+    let s = unsafe { std::slice::from_raw_parts_mut(self.data, self.len) };
+    // Free the name of each person
+    for person in s.iter() {
+      unsafe { libc::free(person.name as *mut libc::c_void) };
+    }
+    // Free the people data
+    unsafe {
+      libc::free(self.data as *mut libc::c_void);
+    }
+  }
 }
 
 #[no_mangle]
 pub extern "C" fn get_people() -> RustPeople {
-  let mut list: Vec<RustPerson> = vec![];
-  let names = ["A", "B", "C", "D"];
-  let ages = [24, 52, 51, 23];
-  let heights = [1.7, 1.6, 1.65, 1.55];
-  for i in 0..4 {
-    let r_str = CString::new(names[i]).unwrap();
-    list.push(RustPerson { name: r_str.into_raw(),
-                           age: ages[i],
-                           height: heights[i] });
-  }
-  RustPeople { size: names.len(), list: (&*list).as_ptr() }
+  let a = CString::new(String::from("A")).unwrap();
+  let b = CString::new(String::from("B")).unwrap();
+  let c = CString::new(String::from("C")).unwrap();
+  let d = CString::new(String::from("D")).unwrap();
+  let mut people = vec![RustPerson { name: a.into_raw(),
+                                     age: 24,
+                                     height: 1.7 },
+                        RustPerson { name: b.into_raw(),
+                                     age: 52,
+                                     height: 1.6 },
+                        RustPerson { name: c.into_raw(),
+                                     age: 53,
+                                     height: 1.65 },
+                        RustPerson { name: d.into_raw(),
+                                     age: 23,
+                                     height: 1.55 }].into_boxed_slice();
+  let data = people.as_mut_ptr();
+  let len = people.len();
+  std::mem::forget(people);
+  RustPeople { len, data }
 }
 
 #[no_mangle]
