@@ -8,7 +8,7 @@ int main() {
   print_rust();
 
   // Sum in Rust
-  std::cout << "Summing two numbers from Rust:" << '\n';
+  std::cout << "Sum two numbers from Rust:" << '\n';
   std::cout << "  1 + 1 = " << addition(1, 1) << '\n';
   std::cout << "  2 + 2 = " << addition(2, 2) << '\n';
 
