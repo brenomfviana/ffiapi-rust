@@ -18,12 +18,20 @@ extern "C" {
 
 uint32_t addition(uint32_t a, uint32_t b);
 
+char *concatenate(char *s1, char *s2);
+
+void free_people(RustPeople people);
+
+void free_person(RustPerson person);
+
+void free_string(char *string);
+
 RustPeople get_people();
 
 RustPerson get_person();
 
-const char *get_string();
+char *get_str();
 
-void rust();
+void print_rust();
 
 } // extern "C"

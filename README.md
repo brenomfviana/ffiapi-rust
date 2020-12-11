@@ -14,7 +14,14 @@ cargo build
 ## Generating `.h` file
 
 ```bash
-cbindgen --config cbindgen.toml --crate ffiapi --output examples/ffiapi.h
+cbindgen --config cbindgen.toml --crate ffiapi --output include/ffiapi.h
+```
+
+
+## Add the library in the `LD_LIBRARY_PATH`
+
+```bash
+export LD_LIBRARY_PATH=/home/breno/Documents/Workspace/Projects/rust_for_cpp/target/debug:$LD_LIBRARY_PATH
 ```
 
 
@@ -28,6 +35,13 @@ or
 
 ```bash
 g++ --std=c++11 -o target/test examples/test.cpp target/debug/libffiapi.so
+```
+
+
+## Compile and test
+
+```bash
+reset && cargo build && cbindgen --config cbindgen.toml --crate ffiapi --output include/ffiapi.h && g++ --std=c++11 -o target/test examples/test.cpp -Ltarget/debug/ -lffiapi && valgrind ./target/test
 ```
 
 
