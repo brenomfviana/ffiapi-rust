@@ -11,17 +11,6 @@ pub extern "C" fn print_rust() {
 #[no_mangle]
 pub extern "C" fn addition(a: u32, b: u32) -> u32 { a + b }
 
-#[repr(C)]
-pub struct RustPerson {
-  name: *const c_char,
-  age: u32,
-  height: f32
-}
-
-impl Drop for RustPerson {
-  fn drop(&mut self) { unsafe { libc::free(self.name as *mut libc::c_void) }; }
-}
-
 #[no_mangle]
 pub extern "C" fn get_str() -> *mut c_char {
   let r_str = CString::new(String::from("Rust")).unwrap();
@@ -46,6 +35,17 @@ pub extern "C" fn free_string(string: *mut c_char) {
     return
   }
   unsafe { CString::from_raw(string) };
+}
+
+#[repr(C)]
+pub struct RustPerson {
+  name: *const c_char,
+  age: u32,
+  height: f32
+}
+
+impl Drop for RustPerson {
+  fn drop(&mut self) { unsafe { libc::free(self.name as *mut libc::c_void) }; }
 }
 
 #[no_mangle]
