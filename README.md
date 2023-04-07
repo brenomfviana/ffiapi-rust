@@ -1,4 +1,4 @@
-# `ffiapi`
+# Rust ffiapis for C++ and C#
 
 This repository contains codes for learning to build FFI APIs in Rust for C++ and C\#.
 There is only one memory leak in this library.
